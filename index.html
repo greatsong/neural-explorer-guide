@@ -45,6 +45,13 @@
     transition: opacity 0.15s;
   }
   .model-card a.btn:hover { opacity: 0.85; }
+  .model-card a.btn-outline {
+    display: inline-block; padding: 9px 18px; border-radius: 8px;
+    background: transparent; color: var(--accent); border: 1.5px solid var(--accent);
+    text-decoration: none; font-weight: 600; transition: opacity 0.15s;
+  }
+  .model-card a.btn-outline:hover { background: var(--accent); color: #fff; }
+  .model-card .btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
   .model-card .rank {
     position: absolute; top: -12px; right: 16px;
     background: var(--accent); color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 700;
@@ -134,13 +141,18 @@
   </header>
 
   <div class="info-box" style="background: linear-gradient(135deg, rgba(94,53,177,0.08), rgba(0,137,123,0.08));">
-    <h3>📚 두 개의 시리즈</h3>
-    <p>이 허브는 <strong>같은 강의 도구(<a href="https://greatsong.github.io/neural-explorer/">Neural Net Explorer</a>)를 다른 분량·깊이로 풀어낸 두 시리즈</strong>를 비교합니다:</p>
+    <h3>📚 두 개의 시리즈 × 두 개의 테마</h3>
+    <p>같은 강의 도구(<a href="https://greatsong.github.io/neural-explorer/">Neural Net Explorer</a>)를 다른 분량으로 풀어낸 <strong>두 시리즈</strong>가 있고, 각 시리즈는 <strong>두 가지 테마</strong>로 배포됐습니다:</p>
     <ul>
-      <li><strong>📘 Lite 시리즈</strong> — 한국 고등학교 4차시(50분×4) 운영 가이드. 9챕터, 70K~88K자. <em>이미 블라인드 평가 완료</em> (Opus 4.7 종합 1위)</li>
-      <li><strong>📕 Deep 시리즈</strong> — 대학·고등 심화·자기학습용 한 학기 강좌. 15챕터, 200K~280K자. <em>이론과 실습 병행, P5의 미분 풀이 등 수학적 깊이 강화, 페이즈 P11~P12 최신 변경사항 반영</em></li>
+      <li><strong>📘 Lite 시리즈</strong> — 한국 고등학교 4차시(50분×4) 운영 가이드. 9챕터. <em>블라인드 평가 완료</em> (Opus 4.7 종합 1위)</li>
+      <li><strong>📕 Deep 시리즈</strong> — 한 학기 분량 풀버전 강좌. 15챕터. <em>이론+실습 병행, P5 미분 풀이, P11·P12 최신 반영</em></li>
     </ul>
-    <p>Lite는 <strong>요약·운영용</strong>, Deep은 <strong>강의 교재·자기학습용</strong>으로 구분해 활용하세요.</p>
+    <p>각 사이트는:</p>
+    <ul>
+      <li>🎨 <strong>Material 테마</strong> — MkDocs Material (기본). 사이드바에 모든 챕터 펼친 형태, 검색은 lunr 기반.</li>
+      <li>✨ <strong>Starlight 테마</strong> — Astro Starlight. 더 모던한 디자인, Pagefind 검색, Mermaid 자동 렌더링, ToC 사이드바.</li>
+    </ul>
+    <p>같은 마크다운으로 두 가지 표현을 비교해보세요.</p>
   </div>
 
   <h2 class="section">📕 Deep 시리즈 — 딥러닝 기초 한 학기 강좌</h2>
@@ -150,13 +162,19 @@
       <h2>🟣 Opus 4.7판 — Deep</h2>
       <div class="meta">15챕터 · 약 230K자 · 이론+실습 병행</div>
       <div class="stats"><span>📄 15챕터</span><span>📝 약 230K자</span></div>
-      <a class="btn" href="https://greatsong.github.io/neural-explorer-deep-opus47/">사이트 열기 →</a>
+      <div class="btn-row">
+        <a class="btn" href="https://greatsong.github.io/neural-explorer-deep-opus47/">🎨 Material →</a>
+        <a class="btn-outline" href="https://greatsong.github.io/neural-explorer-deep-opus47-starlight/">✨ Starlight →</a>
+      </div>
     </div>
     <div class="model-card sonnet46">
       <h2>🟢 Sonnet 4.6판 — Deep</h2>
       <div class="meta">15챕터 · 약 256K자 · 이론+실습 병행</div>
       <div class="stats"><span>📄 15챕터</span><span>📝 약 256K자</span></div>
-      <a class="btn" href="https://greatsong.github.io/neural-explorer-deep-sonnet46/">사이트 열기 →</a>
+      <div class="btn-row">
+        <a class="btn" href="https://greatsong.github.io/neural-explorer-deep-sonnet46/">🎨 Material →</a>
+        <a class="btn-outline" href="https://greatsong.github.io/neural-explorer-deep-sonnet46-starlight/">✨ Starlight →</a>
+      </div>
     </div>
   </div>
   <details style="margin: 16px 0;">
@@ -182,21 +200,30 @@
       <h2>🟣 Claude Opus 4.7</h2>
       <div class="meta">최신 Opus · 1M 컨텍스트</div>
       <div class="stats"><span>📄 9챕터</span><span>📝 68.7K자</span></div>
-      <a class="btn" href="https://greatsong.github.io/neural-explorer-guide-opus47/">사이트 열기 →</a>
+      <div class="btn-row">
+        <a class="btn" href="https://greatsong.github.io/neural-explorer-guide-opus47/">🎨 Material →</a>
+        <a class="btn-outline" href="https://greatsong.github.io/neural-explorer-guide-opus47-starlight/">✨ Starlight →</a>
+      </div>
     </div>
     <div class="model-card opus46">
       <div class="rank">🥈 종합 2위</div>
       <h2>🟪 Claude Opus 4.6</h2>
       <div class="meta">이전 세대 Opus · 가장 풍부한 분량</div>
       <div class="stats"><span>📄 9챕터</span><span>📝 88.4K자</span></div>
-      <a class="btn" href="https://greatsong.github.io/neural-explorer-guide-opus46/">사이트 열기 →</a>
+      <div class="btn-row">
+        <a class="btn" href="https://greatsong.github.io/neural-explorer-guide-opus46/">🎨 Material →</a>
+        <a class="btn-outline" href="https://greatsong.github.io/neural-explorer-guide-opus46-starlight/">✨ Starlight →</a>
+      </div>
     </div>
     <div class="model-card sonnet46">
       <div class="rank">🥉 종합 3위</div>
       <h2>🟢 Claude Sonnet 4.6</h2>
       <div class="meta">중급 Sonnet · 비용 효율 최고</div>
       <div class="stats"><span>📄 9챕터</span><span>📝 68.0K자</span></div>
-      <a class="btn" href="https://greatsong.github.io/neural-explorer-guide-sonnet46/">사이트 열기 →</a>
+      <div class="btn-row">
+        <a class="btn" href="https://greatsong.github.io/neural-explorer-guide-sonnet46/">🎨 Material →</a>
+        <a class="btn-outline" href="https://greatsong.github.io/neural-explorer-guide-sonnet46-starlight/">✨ Starlight →</a>
+      </div>
     </div>
   </div>
 
