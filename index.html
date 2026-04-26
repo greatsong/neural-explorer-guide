@@ -28,8 +28,6 @@
   header { text-align: center; margin-bottom: 48px; }
   h1 { font-size: 2.2rem; margin: 0 0 12px; }
   .subtitle { color: var(--muted); font-size: 1.05rem; }
-  .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; background: #f0f0f0; font-size: 0.85rem; margin-left: 6px; }
-  @media (prefers-color-scheme: dark) { .badge { background: #2a2a2a; } }
 
   .models { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 40px 0; }
   .model-card {
@@ -47,7 +45,11 @@
     transition: opacity 0.15s;
   }
   .model-card a.btn:hover { opacity: 0.85; }
-  .model-card .pending { color: var(--muted); font-size: 0.85rem; padding: 9px 0; }
+  .model-card .rank {
+    position: absolute; top: -12px; right: 16px;
+    background: var(--accent); color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 700;
+  }
+  .model-card { position: relative; }
 
   .opus47 { --accent: var(--opus47); }
   .opus46 { --accent: var(--opus46); }
@@ -56,12 +58,16 @@
   h2.section { font-size: 1.5rem; margin: 56px 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
 
   table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 10px; overflow: hidden; }
-  th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.92rem; }
   th { background: rgba(0,0,0,0.03); font-weight: 600; }
   @media (prefers-color-scheme: dark) { th { background: rgba(255,255,255,0.05); } }
   td.num { font-variant-numeric: tabular-nums; text-align: right; }
-  td a { color: var(--accent, #5e35b1); text-decoration: none; }
+  td a { text-decoration: none; }
   td a:hover { text-decoration: underline; }
+  td a.l-opus47 { color: var(--opus47); }
+  td a.l-opus46 { color: var(--opus46); }
+  td a.l-sonnet46 { color: var(--sonnet46); }
+  td.max { font-weight: 700; }
 
   .info-box {
     background: rgba(94, 53, 177, 0.06); border-left: 4px solid var(--opus47);
@@ -71,42 +77,53 @@
   .info-box p { margin: 6px 0; }
   .info-box ul { margin: 8px 0; padding-left: 24px; }
 
-  footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
-  footer a { color: inherit; }
-
-  /* 평가 결과 */
+  /* 평가 */
   .eval-banner {
-    background: linear-gradient(135deg, rgba(94,53,177,0.08), rgba(0,137,123,0.08));
+    background: linear-gradient(135deg, rgba(94,53,177,0.08), rgba(142,36,170,0.08), rgba(0,137,123,0.08));
     border-radius: 14px; padding: 24px 28px; margin: 32px 0;
   }
   .eval-banner h3 { margin: 0 0 6px; font-size: 1.15rem; }
-  .eval-banner p { margin: 6px 0; }
-  .score-row { display: flex; align-items: center; gap: 14px; margin: 8px 0; flex-wrap: wrap; }
-  .score-row .dim { flex: 0 0 220px; font-weight: 600; }
-  .score-row .bar-wrap { flex: 1; display: flex; gap: 6px; align-items: center; min-width: 240px; }
-  .bar { height: 14px; border-radius: 4px; }
-  .bar.opus47 { background: var(--opus47); }
-  .bar.sonnet46 { background: var(--sonnet46); }
-  .score-row .score { font-variant-numeric: tabular-nums; font-size: 0.9rem; min-width: 32px; }
-  .score-row .winner { font-weight: 700; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem; color: #fff; }
-  .winner.A { background: var(--opus47); }
-  .winner.B { background: var(--sonnet46); }
-  .winner.tie { background: var(--muted); }
+  .pill { padding: 3px 10px; border-radius: 12px; font-weight: 600; color: #fff; font-size: 0.88rem; display: inline-block; margin: 4px 4px 4px 0; }
+  .pill.opus47 { background: var(--opus47); }
+  .pill.opus46 { background: var(--opus46); }
+  .pill.sonnet46 { background: var(--sonnet46); }
 
-  .strength-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
-  @media (max-width: 700px) { .strength-grid { grid-template-columns: 1fr; } }
+  .score-table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden; }
+  .score-table th, .score-table td { padding: 12px 14px; border-bottom: 1px solid var(--border); }
+  .score-table th { background: rgba(0,0,0,0.03); text-align: left; font-weight: 600; font-size: 0.92rem; }
+  .score-table td.dim { font-weight: 600; }
+  .score-cell { display: flex; align-items: center; gap: 8px; }
+  .score-cell .score { font-variant-numeric: tabular-nums; min-width: 36px; font-weight: 600; }
+  .score-cell .bar { height: 10px; border-radius: 3px; flex: 1; }
+  .bar.opus47 { background: var(--opus47); }
+  .bar.opus46 { background: var(--opus46); }
+  .bar.sonnet46 { background: var(--sonnet46); }
+  .winner { font-weight: 700; padding: 2px 8px; border-radius: 10px; font-size: 0.78rem; color: #fff; }
+  .winner.opus47 { background: var(--opus47); }
+  .winner.opus46 { background: var(--opus46); }
+  .winner.sonnet46 { background: var(--sonnet46); }
+  td.gold { background: rgba(94,53,177,0.08); font-weight: 700; }
+
+  .strength-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 16px 0; }
   .strength-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; border-top: 4px solid var(--accent); }
   .strength-card h4 { margin: 0 0 10px; font-size: 1.05rem; color: var(--accent); }
   .strength-card ul { padding-left: 20px; margin: 8px 0; }
-  .strength-card li { margin: 6px 0; }
-  .strength-card.opus47 { --accent: var(--opus47); }
-  .strength-card.sonnet46 { --accent: var(--sonnet46); }
+  .strength-card li { margin: 6px 0; font-size: 0.93rem; }
+  .strength-card .tagline { font-size: 0.88rem; color: var(--muted); margin-top: -4px; margin-bottom: 10px; }
 
   .verdict {
     background: var(--card); border: 1px solid var(--border); border-left: 5px solid #ff8a65;
-    border-radius: 8px; padding: 18px 22px; margin: 20px 0; font-size: 0.98rem;
+    border-radius: 8px; padding: 18px 22px; margin: 20px 0; font-size: 0.96rem;
   }
   .verdict h4 { margin: 0 0 8px; color: #ff8a65; }
+  .verdict p { margin: 8px 0; }
+
+  details summary { cursor: pointer; padding: 12px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; font-weight: 600; }
+  details[open] summary { border-radius: 8px 8px 0 0; }
+  details > div { padding: 16px 20px; border: 1px solid var(--border); border-top: none; border-radius: 0 0 8px 8px; background: var(--card); }
+
+  footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
+  footer a { color: inherit; }
 </style>
 </head>
 <body>
@@ -124,26 +141,29 @@
       <li><strong>목차</strong>: 동일한 <code>toc.json</code> (3 파트 / 9 챕터)</li>
       <li><strong>작성 지침</strong>: 동일한 <code>chapter-meta.md</code> (분량 가이드, 구조 권장, "코드 블록 금지" 등)</li>
     </ul>
-    <p>달라지는 변수는 <strong>모델 단 하나</strong>입니다. 각 모델이 같은 자료를 어떻게 다르게 풀어내는지 직접 비교해 보세요.</p>
+    <p>달라지는 변수는 <strong>모델 단 하나</strong>입니다.</p>
   </div>
 
   <div class="models">
     <div class="model-card opus47">
+      <div class="rank">🥇 종합 1위</div>
       <h2>🟣 Claude Opus 4.7</h2>
-      <div class="meta">최신 Opus · 1M 컨텍스트 · 2026.04 기준 최상위</div>
-      <div class="stats"><span>📄 9챕터</span><span>📝 약 140K자</span></div>
+      <div class="meta">최신 Opus · 1M 컨텍스트</div>
+      <div class="stats"><span>📄 9챕터</span><span>📝 68.7K자</span></div>
       <a class="btn" href="https://greatsong.github.io/neural-explorer-guide-opus47/">사이트 열기 →</a>
     </div>
     <div class="model-card opus46">
+      <div class="rank">🥈 종합 2위</div>
       <h2>🟪 Claude Opus 4.6</h2>
-      <div class="meta">이전 세대 Opus · /fast 모드</div>
-      <div class="stats"><span>⏳ 작성 대기</span></div>
-      <div class="pending">사용자가 <code>/fast</code> 모드로 토글한 뒤 별도 세션에서 진행 예정</div>
+      <div class="meta">이전 세대 Opus · 가장 풍부한 분량</div>
+      <div class="stats"><span>📄 9챕터</span><span>📝 88.4K자</span></div>
+      <a class="btn" href="https://greatsong.github.io/neural-explorer-guide-opus46/">사이트 열기 →</a>
     </div>
     <div class="model-card sonnet46">
+      <div class="rank">🥉 종합 3위</div>
       <h2>🟢 Claude Sonnet 4.6</h2>
-      <div class="meta">중급 Sonnet · 빠른 응답 · 비용 효율</div>
-      <div class="stats"><span>📄 9챕터</span><span>📝 약 143K자</span></div>
+      <div class="meta">중급 Sonnet · 비용 효율 최고</div>
+      <div class="stats"><span>📄 9챕터</span><span>📝 68.0K자</span></div>
       <a class="btn" href="https://greatsong.github.io/neural-explorer-guide-sonnet46/">사이트 열기 →</a>
     </div>
   </div>
@@ -152,171 +172,185 @@
   <table>
     <thead>
       <tr>
-        <th>챕터</th><th>제목</th><th>권장 분량</th>
-        <th class="num">Opus 4.7</th><th class="num">Sonnet 4.6</th>
+        <th>챕터</th><th>제목</th><th>권장</th>
+        <th class="num">🟣 Opus 4.7</th>
+        <th class="num">🟪 Opus 4.6</th>
+        <th class="num">🟢 Sonnet 4.6</th>
         <th>직접 비교</th>
       </tr>
     </thead>
     <tbody>
-      <tr><td>ch01</td><td>강의 개요와 학습 성과 목표</td><td>2.5K–3.5K</td>
-        <td class="num">7,255</td><td class="num">7,046</td>
-        <td><a href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter01/">Opus</a> · <a href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter01/">Sonnet</a></td></tr>
-      <tr><td>ch02</td><td>사전 준비물 · 환경 안내</td><td>2.5K–3.5K</td>
-        <td class="num">8,138</td><td class="num">6,775</td>
-        <td><a href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter02/">Opus</a> · <a href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter02/">Sonnet</a></td></tr>
-      <tr><td>ch03</td><td>4차시 일람표</td><td>2K–3K</td>
-        <td class="num">5,384</td><td class="num">5,177</td>
-        <td><a href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter03/">Opus</a> · <a href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter03/">Sonnet</a></td></tr>
-      <tr><td>ch04</td><td>1차시 — 단일 뉴런 + 학습 원리</td><td>8K–12K</td>
-        <td class="num">24,746</td><td class="num">27,926</td>
-        <td><a href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter04/">Opus</a> · <a href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter04/">Sonnet</a></td></tr>
-      <tr><td>ch05</td><td>2차시 — 분류, 데이터, 평가</td><td>8K–12K</td>
-        <td class="num">25,323</td><td class="num">22,921</td>
-        <td><a href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter05/">Opus</a> · <a href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter05/">Sonnet</a></td></tr>
-      <tr><td>ch06</td><td>3차시 — 직접 만들고 큰 모델 체험</td><td>8K–12K</td>
-        <td class="num">24,405</td><td class="num">25,131</td>
-        <td><a href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter06/">Opus</a> · <a href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter06/">Sonnet</a></td></tr>
-      <tr><td>ch07</td><td>4차시 — 생성 모델, 마무리</td><td>8K–12K</td>
-        <td class="num">25,355</td><td class="num">28,000</td>
-        <td><a href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter07/">Opus</a> · <a href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter07/">Sonnet</a></td></tr>
-      <tr><td>ch08</td><td>통합 평가 루브릭</td><td>3K–4K</td>
-        <td class="num">8,563</td><td class="num">10,119</td>
-        <td><a href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter08/">Opus</a> · <a href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter08/">Sonnet</a></td></tr>
-      <tr><td>ch09</td><td>운영 팁 모음</td><td>3K–4K</td>
-        <td class="num">10,567</td><td class="num">10,050</td>
-        <td><a href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter09/">Opus</a> · <a href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter09/">Sonnet</a></td></tr>
+      <tr><td>ch01</td><td>강의 개요와 학습 성과 목표</td><td>2.5–3.5K</td>
+        <td class="num">3,512</td><td class="num max">4,838</td><td class="num">3,461</td>
+        <td><a class="l-opus47" href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter01/">O4.7</a> · <a class="l-opus46" href="https://greatsong.github.io/neural-explorer-guide-opus46/chapter01/">O4.6</a> · <a class="l-sonnet46" href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter01/">S4.6</a></td></tr>
+      <tr><td>ch02</td><td>사전 준비물 · 환경 안내</td><td>2.5–3.5K</td>
+        <td class="num">4,048</td><td class="num max">4,638</td><td class="num">3,211</td>
+        <td><a class="l-opus47" href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter02/">O4.7</a> · <a class="l-opus46" href="https://greatsong.github.io/neural-explorer-guide-opus46/chapter02/">O4.6</a> · <a class="l-sonnet46" href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter02/">S4.6</a></td></tr>
+      <tr><td>ch03</td><td>4차시 일람표</td><td>2–3K</td>
+        <td class="num">2,702</td><td class="num max">4,970</td><td class="num">2,606</td>
+        <td><a class="l-opus47" href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter03/">O4.7</a> · <a class="l-opus46" href="https://greatsong.github.io/neural-explorer-guide-opus46/chapter03/">O4.6</a> · <a class="l-sonnet46" href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter03/">S4.6</a></td></tr>
+      <tr><td>ch04</td><td>1차시 — 단일 뉴런 + 학습 원리</td><td>8–12K</td>
+        <td class="num">12,105</td><td class="num max">15,378</td><td class="num">13,268</td>
+        <td><a class="l-opus47" href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter04/">O4.7</a> · <a class="l-opus46" href="https://greatsong.github.io/neural-explorer-guide-opus46/chapter04/">O4.6</a> · <a class="l-sonnet46" href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter04/">S4.6</a></td></tr>
+      <tr><td>ch05</td><td>2차시 — 분류, 데이터, 평가</td><td>8–12K</td>
+        <td class="num">12,489</td><td class="num max">15,299</td><td class="num">10,864</td>
+        <td><a class="l-opus47" href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter05/">O4.7</a> · <a class="l-opus46" href="https://greatsong.github.io/neural-explorer-guide-opus46/chapter05/">O4.6</a> · <a class="l-sonnet46" href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter05/">S4.6</a></td></tr>
+      <tr><td>ch06</td><td>3차시 — 직접 만들고 큰 모델 체험</td><td>8–12K</td>
+        <td class="num">12,145</td><td class="num max">15,296</td><td class="num">12,094</td>
+        <td><a class="l-opus47" href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter06/">O4.7</a> · <a class="l-opus46" href="https://greatsong.github.io/neural-explorer-guide-opus46/chapter06/">O4.6</a> · <a class="l-sonnet46" href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter06/">S4.6</a></td></tr>
+      <tr><td>ch07</td><td>4차시 — 생성 모델, 마무리</td><td>8–12K</td>
+        <td class="num">12,266</td><td class="num max">15,704</td><td class="num">13,061</td>
+        <td><a class="l-opus47" href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter07/">O4.7</a> · <a class="l-opus46" href="https://greatsong.github.io/neural-explorer-guide-opus46/chapter07/">O4.6</a> · <a class="l-sonnet46" href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter07/">S4.6</a></td></tr>
+      <tr><td>ch08</td><td>통합 평가 루브릭</td><td>3–4K</td>
+        <td class="num">4,302</td><td class="num max">6,059</td><td class="num">4,733</td>
+        <td><a class="l-opus47" href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter08/">O4.7</a> · <a class="l-opus46" href="https://greatsong.github.io/neural-explorer-guide-opus46/chapter08/">O4.6</a> · <a class="l-sonnet46" href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter08/">S4.6</a></td></tr>
+      <tr><td>ch09</td><td>운영 팁 모음</td><td>3–4K</td>
+        <td class="num">5,165</td><td class="num max">6,172</td><td class="num">4,734</td>
+        <td><a class="l-opus47" href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter09/">O4.7</a> · <a class="l-opus46" href="https://greatsong.github.io/neural-explorer-guide-opus46/chapter09/">O4.6</a> · <a class="l-sonnet46" href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter09/">S4.6</a></td></tr>
+      <tr style="background: rgba(0,0,0,0.04); font-weight: 600;">
+        <td colspan="3">합계</td>
+        <td class="num">68,734</td><td class="num max">88,354</td><td class="num">68,032</td>
+        <td>—</td>
+      </tr>
     </tbody>
   </table>
-  <p style="color: var(--muted); font-size: 0.88rem; margin-top: 8px;">※ 글자 수는 마크다운 원문 기준(공백·문법 포함). 50분 차시 챕터(ch04~07)는 두 모델 모두 권장 분량을 크게 초과하며 풍부하게 작성됨.</p>
+  <p style="color: var(--muted); font-size: 0.88rem; margin-top: 8px;">※ 글자 수는 마크다운 원문 기준(공백·문법 포함). 굵은 셀 = 챕터 최대. <strong>Opus 4.6이 모든 챕터에서 가장 풍부</strong>하며, Opus 4.7과 Sonnet 4.6은 분량이 거의 비슷합니다.</p>
 
-  <h2 class="section">🎭 블라인드 비교 평가</h2>
+  <h2 class="section">🎭 3-Way 블라인드 비교 평가</h2>
 
   <div class="eval-banner">
     <h3>실험 설계</h3>
-    <p>두 결과물을 <strong>Site A / Site B</strong>로 무작위 라벨링하고 모델명 단서를 모두 마스킹한 뒤, 별도의 평가 에이전트(Sonnet 4.6) 5명이 차원별로 독립 평가했습니다. 평가 후에야 매핑을 공개했습니다.</p>
+    <p>세 결과물을 <strong>Site A / Site B / Site C</strong>로 무작위 라벨링하고 모델명 단서를 모두 마스킹한 뒤, 별도의 평가 에이전트(Sonnet 4.6) 5명이 차원별로 독립 평가했습니다. 평가 후에야 매핑을 공개했습니다.</p>
     <p style="margin-top: 12px;">
-      <span style="background: var(--opus47); color: #fff; padding: 3px 10px; border-radius: 12px; font-weight: 600;">Site A = Opus 4.7</span>
-      &nbsp;&nbsp;
-      <span style="background: var(--sonnet46); color: #fff; padding: 3px 10px; border-radius: 12px; font-weight: 600;">Site B = Sonnet 4.6</span>
+      <span class="pill sonnet46">Site A = Sonnet 4.6</span>
+      <span class="pill opus46">Site B = Opus 4.6</span>
+      <span class="pill opus47">Site C = Opus 4.7</span>
     </p>
   </div>
 
   <h3 style="margin-top: 32px;">📐 차원별 점수 (10점 만점)</h3>
-  <div style="background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
-    <div class="score-row">
-      <div class="dim">구조와 일관성</div>
-      <div class="bar-wrap">
-        <span class="score">7.5</span><div class="bar opus47" style="width: 75%;"></div>
-      </div>
-      <div class="bar-wrap">
-        <span class="score">8.5</span><div class="bar sonnet46" style="width: 85%;"></div>
-      </div>
-      <span class="winner B">B 우세</span>
-    </div>
-    <div class="score-row">
-      <div class="dim">수업 멘트 자연스러움</div>
-      <div class="bar-wrap">
-        <span class="score">8.5</span><div class="bar opus47" style="width: 85%;"></div>
-      </div>
-      <div class="bar-wrap">
-        <span class="score">7.0</span><div class="bar sonnet46" style="width: 70%;"></div>
-      </div>
-      <span class="winner A">A 우세</span>
-    </div>
-    <div class="score-row">
-      <div class="dim">비유와 예시</div>
-      <div class="bar-wrap">
-        <span class="score">7.0</span><div class="bar opus47" style="width: 70%;"></div>
-      </div>
-      <div class="bar-wrap">
-        <span class="score">8.5</span><div class="bar sonnet46" style="width: 85%;"></div>
-      </div>
-      <span class="winner B">B 우세</span>
-    </div>
-    <div class="score-row">
-      <div class="dim">Q&A 학습자 시각</div>
-      <div class="bar-wrap">
-        <span class="score">7.8</span><div class="bar opus47" style="width: 78%;"></div>
-      </div>
-      <div class="bar-wrap">
-        <span class="score">7.2</span><div class="bar sonnet46" style="width: 72%;"></div>
-      </div>
-      <span class="winner A">A 우세</span>
-    </div>
-    <div class="score-row">
-      <div class="dim">분량 효율 (응축)</div>
-      <div class="bar-wrap">
-        <span class="score">5.8</span><div class="bar opus47" style="width: 58%;"></div>
-      </div>
-      <div class="bar-wrap">
-        <span class="score">6.0</span><div class="bar sonnet46" style="width: 60%;"></div>
-      </div>
-      <span class="winner B">B 근소</span>
-    </div>
-    <hr style="margin: 16px 0; border: none; border-top: 1px solid var(--border);">
-    <div class="score-row">
-      <div class="dim"><strong>종합 평균</strong></div>
-      <div class="bar-wrap">
-        <span class="score"><strong>7.32</strong></span><div class="bar opus47" style="width: 73.2%;"></div>
-      </div>
-      <div class="bar-wrap">
-        <span class="score"><strong>7.44</strong></span><div class="bar sonnet46" style="width: 74.4%;"></div>
-      </div>
-      <span class="winner tie">근소·동률</span>
-    </div>
-  </div>
+  <table class="score-table">
+    <thead>
+      <tr>
+        <th>차원</th>
+        <th style="color: var(--opus47);">🟣 Opus 4.7 (Site C)</th>
+        <th style="color: var(--opus46);">🟪 Opus 4.6 (Site B)</th>
+        <th style="color: var(--sonnet46);">🟢 Sonnet 4.6 (Site A)</th>
+        <th>1위</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="dim">구조와 일관성</td>
+        <td><div class="score-cell"><span class="score">7.2</span><div class="bar opus47" style="width:72%"></div></div></td>
+        <td><div class="score-cell"><span class="score">8.5</span><div class="bar opus46" style="width:85%"></div></div></td>
+        <td><div class="score-cell"><span class="score">7.8</span><div class="bar sonnet46" style="width:78%"></div></div></td>
+        <td><span class="winner opus46">Opus 4.6</span></td>
+      </tr>
+      <tr>
+        <td class="dim">수업 멘트 자연스러움</td>
+        <td><div class="score-cell"><span class="score">7.5</span><div class="bar opus47" style="width:75%"></div></div></td>
+        <td><div class="score-cell"><span class="score">8.5</span><div class="bar opus46" style="width:85%"></div></div></td>
+        <td><div class="score-cell"><span class="score">6.5</span><div class="bar sonnet46" style="width:65%"></div></div></td>
+        <td><span class="winner opus46">Opus 4.6</span></td>
+      </tr>
+      <tr>
+        <td class="dim">비유와 예시</td>
+        <td><div class="score-cell"><span class="score">8.0</span><div class="bar opus47" style="width:80%"></div></div></td>
+        <td><div class="score-cell"><span class="score">7.5</span><div class="bar opus46" style="width:75%"></div></div></td>
+        <td><div class="score-cell"><span class="score">5.5</span><div class="bar sonnet46" style="width:55%"></div></div></td>
+        <td><span class="winner opus47">Opus 4.7</span></td>
+      </tr>
+      <tr>
+        <td class="dim">Q&A 학습자 시각</td>
+        <td><div class="score-cell"><span class="score">8.0</span><div class="bar opus47" style="width:80%"></div></div></td>
+        <td><div class="score-cell"><span class="score">7.5</span><div class="bar opus46" style="width:75%"></div></div></td>
+        <td><div class="score-cell"><span class="score">6.5</span><div class="bar sonnet46" style="width:65%"></div></div></td>
+        <td><span class="winner opus47">Opus 4.7</span></td>
+      </tr>
+      <tr>
+        <td class="dim">분량 효율 (응축)</td>
+        <td><div class="score-cell"><span class="score">7.0</span><div class="bar opus47" style="width:70%"></div></div></td>
+        <td><div class="score-cell"><span class="score">3.5</span><div class="bar opus46" style="width:35%"></div></div></td>
+        <td><div class="score-cell"><span class="score">6.5</span><div class="bar sonnet46" style="width:65%"></div></div></td>
+        <td><span class="winner opus47">Opus 4.7</span></td>
+      </tr>
+      <tr style="background: rgba(0,0,0,0.05);">
+        <td class="dim"><strong>종합 평균</strong></td>
+        <td class="gold"><div class="score-cell"><span class="score"><strong>7.54</strong></span><div class="bar opus47" style="width:75.4%"></div></div></td>
+        <td><div class="score-cell"><span class="score"><strong>7.10</strong></span><div class="bar opus46" style="width:71%"></div></div></td>
+        <td><div class="score-cell"><span class="score"><strong>6.56</strong></span><div class="bar sonnet46" style="width:65.6%"></div></div></td>
+        <td><span class="winner opus47">🥇 Opus 4.7</span></td>
+      </tr>
+    </tbody>
+  </table>
 
   <h3 style="margin-top: 32px;">💪 모델별 강점</h3>
   <div class="strength-grid">
     <div class="strength-card opus47">
-      <h4>🟣 Opus 4.7 — "수업 현장 친화적"</h4>
+      <h4>🟣 Opus 4.7 — "균형 잡힌 종합 1위"</h4>
+      <div class="tagline">비유·Q&A·분량 효율 1위</div>
       <ul>
-        <li>그대로 입으로 나가는 <strong>구어체 멘트</strong> ("페이즈 5 가세요. 7~8분 줄게요.")</li>
-        <li><strong>구체적 학생 등장인물</strong>(민지·영수·지호)로 교실 장면이 즉각 그려짐</li>
-        <li>이전 페이즈 번호를 명시 인용하는 <strong>차시 간 연결</strong> ("P5에서 본 기울기")</li>
-        <li>슬라이더 만지다 막히는 순간을 포착한 <strong>풍부한 Q&A</strong> (1차시 14개)</li>
-        <li>오개념을 <strong>3열 표 한 장</strong>(오개념/정확한 이해/즉석 대응 멘트)에 압축</li>
+        <li><strong>비유 카탈로그 전략</strong> — 잠재 공간을 지도·색상환·음정·DNA 4개 비유로 제공해 교사 선택권 부여</li>
+        <li><strong>오개념 3열 표</strong>(오개념/정확한 이해/즉석 대응 멘트)로 압축 — 셋 중 가장 효율적인 정보 압축</li>
+        <li>"직접 초기화 버튼 눌러보세요" 등 <strong>답변에 행동 지시 내장</strong></li>
+        <li>distribution shift, 임계값 vs 모델 구분 등 <strong>고급 맹점 포착</strong></li>
+        <li>분량을 권장 범위에 가깝게 유지하면서도 정보 밀도 높음</li>
+      </ul>
+    </div>
+    <div class="strength-card opus46">
+      <h4>🟪 Opus 4.6 — "교실 현장의 따뜻함"</h4>
+      <div class="tagline">구조·멘트 자연스러움 1위</div>
+      <ul>
+        <li>"AI라고 하면 마법 같죠? 영화에선 눈이 빛나면서…" — <strong>가장 자연스러운 구어체</strong></li>
+        <li>학생 이름(영수·민지·수연) <strong>전 차시 일관 등장</strong>으로 교실 현장감 압도적</li>
+        <li>9챕터 H2~H4 헤딩 구조가 거의 완벽하게 반복 — <strong>가장 강한 구조 일관성</strong></li>
+        <li>"공이 포물선/산을 굴러 내려간다" 등 <strong>차시를 관통하는 단일 메타포</strong></li>
+        <li>딥페이크·입시 AI 등 <strong>곤란한 사회적 질문</strong>도 정면 대응</li>
       </ul>
     </div>
     <div class="strength-card sonnet46">
-      <h4>🟢 Sonnet 4.6 — "교재 설계 친화적"</h4>
+      <h4>🟢 Sonnet 4.6 — "절제된 응축"</h4>
+      <div class="tagline">비용 효율 최고</div>
       <ul>
-        <li>9챕터 헤딩이 거의 동일한 <strong>강한 구조 일관성</strong></li>
-        <li><strong>신선한 비유</strong> (가중치=성적 반영비율, 잠재 공간=기내용 캐리어, 정밀도/재현율=낚시꾼)</li>
-        <li>"눈 감고 산에서 내려오기" — 경사 하강법의 <strong>정보 제약</strong>까지 정확히 포착</li>
-        <li><strong>가치 판단 질문</strong>도 정면 대응 ("기술의 경계를 아는 것도 리터러시")</li>
-        <li>VAE vs 오토인코더, 잠재 차원의 자율적 의미 등 <strong>개념 경계까지 탐구</strong></li>
+        <li>핵심 키워드 밀도 6.6/1천자 — <strong>같은 분량 대비 정보 밀도 1위</strong></li>
+        <li>"진짜 합격 공식이 아닌 거죠" 등 <strong>날카로운 한 줄 마무리</strong>의 감각</li>
+        <li>"기술의 경계를 아는 것도 리터러시" 등 <strong>가치 판단을 정면 처리</strong></li>
+        <li>VAE vs 오토인코더 등 <strong>개념 경계 탐구</strong></li>
+        <li><strong>비용 대비 출력 품질</strong>이 가장 우수 (Opus 대비 1/5 가격)</li>
       </ul>
     </div>
   </div>
 
   <div class="verdict">
-    <h4>🎯 결론</h4>
-    <p><strong>5개 차원 중 3개에서 Sonnet 4.6이 우세</strong>했지만 종합 점수는 0.12점 차이로 사실상 동률입니다. 두 모델의 약점이 정확히 반대라는 점이 흥미롭습니다 — Opus 4.7은 같은 내용을 다른 형식으로 반복하는 분량 비효율, Sonnet 4.6은 서사적 도입이 분량을 잠식하고 일부 답변이 학술체로 흐른다는 것.</p>
-    <p style="margin-top: 10px;">
-      📌 <strong>수업 직전·교실 실전</strong> → Opus 4.7판 추천<br>
-      📌 <strong>사전 수업 설계·교재 자체로 읽기</strong> → Sonnet 4.6판 추천<br>
-      📌 가장 인상적인 발견은 <strong>Sonnet 4.6이 Opus 4.7과 동급의 교육 콘텐츠 품질</strong>을 냈다는 것 — 비용 대비 효율 측면에선 Sonnet 4.6이 명확히 유리.
+    <h4>🎯 결론 — 모델별 추천 사용처</h4>
+    <p>같은 작성 지침으로 만들었음에도 세 모델은 명확히 다른 결과물을 냈습니다. 어느 하나가 모든 차원에서 우월하지 않으며 <strong>각자의 강점이 다릅니다</strong>:</p>
+    <p style="margin-top: 12px;">
+      🟣 <strong>Opus 4.7 (균형형)</strong> → 한 가지 자료만 골라야 한다면 <strong>이걸로</strong>. 비유·Q&A·분량 효율의 균형이 가장 좋고, 5차원 중 3개 1위.<br>
+      🟪 <strong>Opus 4.6 (현장형)</strong> → 교실에서 그대로 입으로 말하는 멘트가 필요하면. 구조 일관성과 멘트 자연스러움이 가장 뛰어남. 단, 분량이 28% 더 많아 응축 면에서 손해.<br>
+      🟢 <strong>Sonnet 4.6 (효율형)</strong> → 비용을 의식해야 하는 대량 생성에 적합. 정보 밀도는 높지만 비유의 풍부함과 멘트의 따뜻함이 두 Opus에 미치지 못함.
     </p>
+    <p style="margin-top: 12px;">📌 <strong>2-way vs 3-way 평가의 흥미로운 차이</strong>: 처음 Opus 4.7 vs Sonnet 4.6만 비교했을 땐 거의 동률(7.32 vs 7.44)이었으나, Opus 4.6이 추가된 3-way에서 평가자의 분별력이 살아나 Sonnet 4.6이 명확히 3위가 됐습니다. 비교 대상의 다양성이 평가의 변별력을 만든다는 메타 교훈.</p>
   </div>
 
   <details style="margin-top: 16px;">
-    <summary style="cursor: pointer; padding: 12px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; font-weight: 600;">📋 평가 방법 상세</summary>
-    <div style="padding: 16px 20px; border: 1px solid var(--border); border-top: none; border-radius: 0 0 8px 8px; background: var(--card);">
-      <p><strong>입력</strong>: 두 사이트의 챕터 마크다운 원문(주로 ch04~07 50분 차시 + 부록)</p>
-      <p><strong>마스킹</strong>: <code>opus</code>·<code>sonnet</code>·<code>claude</code>·<code>4.6</code>·<code>4.7</code> 단서를 모두 검사·치환. 디렉터리 라벨도 site-A/site-B 임의 매핑.</p>
+    <summary>📋 평가 방법 상세</summary>
+    <div>
+      <p><strong>입력</strong>: 세 사이트의 챕터 마크다운 원문(주로 ch04~07 50분 차시 + 부록 ch08~09)</p>
+      <p><strong>마스킹</strong>: <code>opus</code>·<code>sonnet</code>·<code>claude</code>·<code>4.6</code>·<code>4.7</code> 단서를 모두 검사·치환. 디렉터리 라벨도 site-A/B/C 임의 무작위 매핑 (Python <code>random.shuffle</code>).</p>
       <p><strong>평가자</strong>: Sonnet 4.6 에이전트 5명, 차원별 독립. 각 에이전트는 자신의 차원 외 다른 평가자의 결과를 보지 않음.</p>
       <p><strong>출력</strong>: 차원별 강점·약점·인용·점수 보고서 5개</p>
-      <p style="color: var(--muted); font-size: 0.9rem; margin-top: 12px;">※ 평가자가 Sonnet 4.6이라는 점에서 자기 모델 편향 가능성은 있지만, 블라인드 조건에서 Sonnet 4.6이 압승하지 않고 0.12점 우세에 그쳤다는 점이 오히려 신뢰성 신호로 해석 가능.</p>
+      <p style="color: var(--muted); font-size: 0.9rem; margin-top: 12px;">※ 평가자가 Sonnet 4.6이라는 점에서 자기 모델 편향 가능성은 있으나, 블라인드 조건에서 Sonnet 4.6이 오히려 3위로 평가된 것이 평가 신뢰성의 신호.</p>
     </div>
   </details>
 
   <h2 class="section">🔗 관련 리포지토리</h2>
   <ul>
     <li>인터랙티브 웹앱(원본): <a href="https://github.com/greatsong/neural-explorer">github.com/greatsong/neural-explorer</a></li>
-    <li>Opus 4.7 사이트 소스: <a href="https://github.com/greatsong/neural-explorer-guide-opus47">github.com/greatsong/neural-explorer-guide-opus47</a></li>
-    <li>Sonnet 4.6 사이트 소스: <a href="https://github.com/greatsong/neural-explorer-guide-sonnet46">github.com/greatsong/neural-explorer-guide-sonnet46</a></li>
-    <li>이 비교 허브: <a href="https://github.com/greatsong/neural-explorer-guide">github.com/greatsong/neural-explorer-guide</a></li>
+    <li>🟣 Opus 4.7 사이트 소스: <a href="https://github.com/greatsong/neural-explorer-guide-opus47">neural-explorer-guide-opus47</a></li>
+    <li>🟪 Opus 4.6 사이트 소스: <a href="https://github.com/greatsong/neural-explorer-guide-opus46">neural-explorer-guide-opus46</a></li>
+    <li>🟢 Sonnet 4.6 사이트 소스: <a href="https://github.com/greatsong/neural-explorer-guide-sonnet46">neural-explorer-guide-sonnet46</a></li>
+    <li>📊 이 비교 허브: <a href="https://github.com/greatsong/neural-explorer-guide">neural-explorer-guide</a></li>
   </ul>
 
   <footer>
