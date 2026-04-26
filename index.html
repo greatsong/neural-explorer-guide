@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neural Net Explorer 수업 가이드 — 모델 비교 허브</title>
+<style>
+  :root {
+    --bg: #fafafa;
+    --fg: #1a1a1a;
+    --muted: #666;
+    --card: #fff;
+    --border: #e5e5e5;
+    --opus47: #5e35b1;
+    --opus46: #8e24aa;
+    --sonnet46: #00897b;
+    --hub: #424242;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#121212; --fg:#eee; --muted:#aaa; --card:#1e1e1e; --border:#333; }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+    background: var(--bg); color: var(--fg); line-height: 1.6;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; }
+  header { text-align: center; margin-bottom: 48px; }
+  h1 { font-size: 2.2rem; margin: 0 0 12px; }
+  .subtitle { color: var(--muted); font-size: 1.05rem; }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; background: #f0f0f0; font-size: 0.85rem; margin-left: 6px; }
+  @media (prefers-color-scheme: dark) { .badge { background: #2a2a2a; } }
+
+  .models { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 40px 0; }
+  .model-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 24px;
+    border-top: 5px solid var(--accent); transition: transform 0.15s;
+  }
+  .model-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .model-card h2 { margin: 0 0 8px; font-size: 1.3rem; color: var(--accent); }
+  .model-card .meta { color: var(--muted); font-size: 0.9rem; margin-bottom: 14px; }
+  .model-card .stats { font-size: 0.95rem; margin-bottom: 16px; }
+  .model-card .stats span { display: inline-block; margin-right: 16px; }
+  .model-card a.btn {
+    display: inline-block; padding: 9px 18px; border-radius: 8px;
+    background: var(--accent); color: #fff; text-decoration: none; font-weight: 600;
+    transition: opacity 0.15s;
+  }
+  .model-card a.btn:hover { opacity: 0.85; }
+  .model-card .pending { color: var(--muted); font-size: 0.85rem; padding: 9px 0; }
+
+  .opus47 { --accent: var(--opus47); }
+  .opus46 { --accent: var(--opus46); }
+  .sonnet46 { --accent: var(--sonnet46); }
+
+  h2.section { font-size: 1.5rem; margin: 56px 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--border); }
+
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 10px; overflow: hidden; }
+  th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+  th { background: rgba(0,0,0,0.03); font-weight: 600; }
+  @media (prefers-color-scheme: dark) { th { background: rgba(255,255,255,0.05); } }
+  td.num { font-variant-numeric: tabular-nums; text-align: right; }
+  td a { color: var(--accent, #5e35b1); text-decoration: none; }
+  td a:hover { text-decoration: underline; }
+
+  .info-box {
+    background: rgba(94, 53, 177, 0.06); border-left: 4px solid var(--opus47);
+    padding: 16px 20px; border-radius: 8px; margin: 24px 0;
+  }
+  .info-box h3 { margin: 0 0 8px; font-size: 1.05rem; }
+  .info-box p { margin: 6px 0; }
+  .info-box ul { margin: 8px 0; padding-left: 24px; }
+
+  footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
+  footer a { color: inherit; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>🧠 Neural Net Explorer 수업 가이드</h1>
+    <p class="subtitle">동일한 참고자료로 <strong>3개의 Claude 모델</strong>이 각각 작성한 4차시 수업 운영 가이드 비교 허브</p>
+  </header>
+
+  <div class="info-box">
+    <h3>📌 비교 실험 안내</h3>
+    <p>3개 사이트는 모두 같은 입력으로 만들어졌습니다:</p>
+    <ul>
+      <li><strong>참고자료</strong>: <code>teaching-guide.md</code> (1,096줄, 약 58K자)</li>
+      <li><strong>목차</strong>: 동일한 <code>toc.json</code> (3 파트 / 9 챕터)</li>
+      <li><strong>작성 지침</strong>: 동일한 <code>chapter-meta.md</code> (분량 가이드, 구조 권장, "코드 블록 금지" 등)</li>
+    </ul>
+    <p>달라지는 변수는 <strong>모델 단 하나</strong>입니다. 각 모델이 같은 자료를 어떻게 다르게 풀어내는지 직접 비교해 보세요.</p>
+  </div>
+
+  <div class="models">
+    <div class="model-card opus47">
+      <h2>🟣 Claude Opus 4.7</h2>
+      <div class="meta">최신 Opus · 1M 컨텍스트 · 2026.04 기준 최상위</div>
+      <div class="stats"><span>📄 9챕터</span><span>📝 약 140K자</span></div>
+      <a class="btn" href="https://greatsong.github.io/neural-explorer-guide-opus47/">사이트 열기 →</a>
+    </div>
+    <div class="model-card opus46">
+      <h2>🟪 Claude Opus 4.6</h2>
+      <div class="meta">이전 세대 Opus · /fast 모드</div>
+      <div class="stats"><span>⏳ 작성 대기</span></div>
+      <div class="pending">사용자가 <code>/fast</code> 모드로 토글한 뒤 별도 세션에서 진행 예정</div>
+    </div>
+    <div class="model-card sonnet46">
+      <h2>🟢 Claude Sonnet 4.6</h2>
+      <div class="meta">중급 Sonnet · 빠른 응답 · 비용 효율</div>
+      <div class="stats"><span>📄 9챕터</span><span>📝 약 143K자</span></div>
+      <a class="btn" href="https://greatsong.github.io/neural-explorer-guide-sonnet46/">사이트 열기 →</a>
+    </div>
+  </div>
+
+  <h2 class="section">📊 챕터별 분량 비교</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>챕터</th><th>제목</th><th>권장 분량</th>
+        <th class="num">Opus 4.7</th><th class="num">Sonnet 4.6</th>
+        <th>직접 비교</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>ch01</td><td>강의 개요와 학습 성과 목표</td><td>2.5K–3.5K</td>
+        <td class="num">7,255</td><td class="num">7,046</td>
+        <td><a href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter01/">Opus</a> · <a href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter01/">Sonnet</a></td></tr>
+      <tr><td>ch02</td><td>사전 준비물 · 환경 안내</td><td>2.5K–3.5K</td>
+        <td class="num">8,138</td><td class="num">6,775</td>
+        <td><a href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter02/">Opus</a> · <a href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter02/">Sonnet</a></td></tr>
+      <tr><td>ch03</td><td>4차시 일람표</td><td>2K–3K</td>
+        <td class="num">5,384</td><td class="num">5,177</td>
+        <td><a href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter03/">Opus</a> · <a href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter03/">Sonnet</a></td></tr>
+      <tr><td>ch04</td><td>1차시 — 단일 뉴런 + 학습 원리</td><td>8K–12K</td>
+        <td class="num">24,746</td><td class="num">27,926</td>
+        <td><a href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter04/">Opus</a> · <a href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter04/">Sonnet</a></td></tr>
+      <tr><td>ch05</td><td>2차시 — 분류, 데이터, 평가</td><td>8K–12K</td>
+        <td class="num">25,323</td><td class="num">22,921</td>
+        <td><a href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter05/">Opus</a> · <a href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter05/">Sonnet</a></td></tr>
+      <tr><td>ch06</td><td>3차시 — 직접 만들고 큰 모델 체험</td><td>8K–12K</td>
+        <td class="num">24,405</td><td class="num">25,131</td>
+        <td><a href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter06/">Opus</a> · <a href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter06/">Sonnet</a></td></tr>
+      <tr><td>ch07</td><td>4차시 — 생성 모델, 마무리</td><td>8K–12K</td>
+        <td class="num">25,355</td><td class="num">28,000</td>
+        <td><a href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter07/">Opus</a> · <a href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter07/">Sonnet</a></td></tr>
+      <tr><td>ch08</td><td>통합 평가 루브릭</td><td>3K–4K</td>
+        <td class="num">8,563</td><td class="num">10,119</td>
+        <td><a href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter08/">Opus</a> · <a href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter08/">Sonnet</a></td></tr>
+      <tr><td>ch09</td><td>운영 팁 모음</td><td>3K–4K</td>
+        <td class="num">10,567</td><td class="num">10,050</td>
+        <td><a href="https://greatsong.github.io/neural-explorer-guide-opus47/chapter09/">Opus</a> · <a href="https://greatsong.github.io/neural-explorer-guide-sonnet46/chapter09/">Sonnet</a></td></tr>
+    </tbody>
+  </table>
+  <p style="color: var(--muted); font-size: 0.88rem; margin-top: 8px;">※ 글자 수는 마크다운 원문 기준(공백·문법 포함). 50분 차시 챕터(ch04~07)는 두 모델 모두 권장 분량을 크게 초과하며 풍부하게 작성됨.</p>
+
+  <h2 class="section">🎯 비교 시 살펴볼 포인트</h2>
+  <ul>
+    <li><strong>구조의 일관성</strong> — 같은 권장 구조(도입 → 학습 목표 → 타임라인 → 페이즈별 진행 → Q&A → 평가 …)를 어떻게 따라갔는가</li>
+    <li><strong>비유와 예시</strong> — 추상적 개념(가중치, 손실, 잠재 공간 등)을 어떤 비유로 풀어냈는가</li>
+    <li><strong>수업 멘트 자연스러움</strong> — 교사가 그대로 가져가 쓸 수 있는가</li>
+    <li><strong>예상 Q&A의 깊이</strong> — 학생이 실제로 던질 만한 질문을 짚었는가</li>
+    <li><strong>페이즈 간 전환</strong> — 한 페이즈에서 다음 페이즈로 자연스럽게 넘어가는가</li>
+    <li><strong>불필요한 군더더기</strong> — 같은 내용을 반복하거나 형식만 채운 부분이 없는가</li>
+  </ul>
+
+  <h2 class="section">🔗 관련 리포지토리</h2>
+  <ul>
+    <li>인터랙티브 웹앱(원본): <a href="https://github.com/greatsong/neural-explorer">github.com/greatsong/neural-explorer</a></li>
+    <li>Opus 4.7 사이트 소스: <a href="https://github.com/greatsong/neural-explorer-guide-opus47">github.com/greatsong/neural-explorer-guide-opus47</a></li>
+    <li>Sonnet 4.6 사이트 소스: <a href="https://github.com/greatsong/neural-explorer-guide-sonnet46">github.com/greatsong/neural-explorer-guide-sonnet46</a></li>
+    <li>이 비교 허브: <a href="https://github.com/greatsong/neural-explorer-guide">github.com/greatsong/neural-explorer-guide</a></li>
+  </ul>
+
+  <footer>
+    석리송 · 2026 · Generated by <a href="https://eduflow-greatsong.fly.dev/">EduFlow</a>의 프로세스를 따라 Claude Code에서 작성
+  </footer>
+</div>
+</body>
+</html>
