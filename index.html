@@ -130,19 +130,51 @@
 <div class="container">
   <header>
     <h1>🧠 Neural Net Explorer 수업 가이드</h1>
-    <p class="subtitle">동일한 참고자료로 <strong>3개의 Claude 모델</strong>이 각각 작성한 4차시 수업 운영 가이드 비교 허브</p>
+    <p class="subtitle">동일한 참고자료로 <strong>여러 Claude 모델</strong>이 각각 작성한 신경망 강의 자료 비교 허브</p>
   </header>
 
-  <div class="info-box">
-    <h3>📌 비교 실험 안내</h3>
-    <p>3개 사이트는 모두 같은 입력으로 만들어졌습니다:</p>
+  <div class="info-box" style="background: linear-gradient(135deg, rgba(94,53,177,0.08), rgba(0,137,123,0.08));">
+    <h3>📚 두 개의 시리즈</h3>
+    <p>이 허브는 <strong>같은 강의 도구(<a href="https://greatsong.github.io/neural-explorer/">Neural Net Explorer</a>)를 다른 분량·깊이로 풀어낸 두 시리즈</strong>를 비교합니다:</p>
     <ul>
-      <li><strong>참고자료</strong>: <code>teaching-guide.md</code> (1,096줄, 약 58K자)</li>
-      <li><strong>목차</strong>: 동일한 <code>toc.json</code> (3 파트 / 9 챕터)</li>
-      <li><strong>작성 지침</strong>: 동일한 <code>chapter-meta.md</code> (분량 가이드, 구조 권장, "코드 블록 금지" 등)</li>
+      <li><strong>📘 Lite 시리즈</strong> — 한국 고등학교 4차시(50분×4) 운영 가이드. 9챕터, 70K~88K자. <em>이미 블라인드 평가 완료</em> (Opus 4.7 종합 1위)</li>
+      <li><strong>📕 Deep 시리즈</strong> — 대학·고등 심화·자기학습용 한 학기 강좌. 15챕터, 200K~280K자. <em>이론과 실습 병행, P5의 미분 풀이 등 수학적 깊이 강화, 페이즈 P11~P12 최신 변경사항 반영</em></li>
     </ul>
-    <p>달라지는 변수는 <strong>모델 단 하나</strong>입니다.</p>
+    <p>Lite는 <strong>요약·운영용</strong>, Deep은 <strong>강의 교재·자기학습용</strong>으로 구분해 활용하세요.</p>
   </div>
+
+  <h2 class="section">📕 Deep 시리즈 — 딥러닝 기초 한 학기 강좌</h2>
+  <p style="color: var(--muted); margin-bottom: 16px;">15챕터·약 12주차 강의. P1~P12 모든 페이즈를 이론 강의 + 실습 가이드 + 풍성한 학생 발화·예상 Q&amp;A로 풀어낸 풀버전. <strong>이전 Lite 평가 결과를 토대로 가장 균형 좋았던 Opus 4.7과 비용 효율 1위였던 Sonnet 4.6 두 모델로만 작성.</strong></p>
+  <div class="models">
+    <div class="model-card opus47">
+      <h2>🟣 Opus 4.7판 — Deep</h2>
+      <div class="meta">15챕터 · 약 230K자 · 이론+실습 병행</div>
+      <div class="stats"><span>📄 15챕터</span><span>📝 약 230K자</span></div>
+      <a class="btn" href="https://greatsong.github.io/neural-explorer-deep-opus47/">사이트 열기 →</a>
+    </div>
+    <div class="model-card sonnet46">
+      <h2>🟢 Sonnet 4.6판 — Deep</h2>
+      <div class="meta">15챕터 · 약 256K자 · 이론+실습 병행</div>
+      <div class="stats"><span>📄 15챕터</span><span>📝 약 256K자</span></div>
+      <a class="btn" href="https://greatsong.github.io/neural-explorer-deep-sonnet46/">사이트 열기 →</a>
+    </div>
+  </div>
+  <details style="margin: 16px 0;">
+    <summary>📋 Deep 시리즈 챕터 구성 (15 챕터, 5 Part)</summary>
+    <div>
+      <p><strong>Part I — 강의 개요와 환경</strong>: ch01 강의 개요·로드맵 / ch02 환경과 도구</p>
+      <p><strong>Part II — 단일 뉴런과 학습 원리</strong>: ch03 인공 뉴런 수학 모델 (P1·P2) / ch04 손실 함수 (P3) / ch05 수동 학습 (P4) / ch06 ⭐ 경사 하강법 (P5)</p>
+      <p><strong>Part III — 분류와 평가</strong>: ch07 분류 문제 (P6) / ch08 일반화·과적합 (P7) / ch09 혼동 행렬 (P8) / ch10 정밀도·재현율 (P9)</p>
+      <p><strong>Part IV — 데이터와 깊은 학습</strong>: ch11 데이터 마인드셋 (P10) / ch12 다층 신경망 (P11) / ch13 ⭐ MNIST와 데이터 증강 (P12)</p>
+      <p><strong>Part V — 부록</strong>: ch14 수학 부록·추가 자료 / ch15 강의 운영·평가·윤리</p>
+      <p style="color: var(--muted); font-size: 0.9rem; margin-top: 12px;">※ 메인 챕터(ch03~ch13)는 모두 7섹션(도입/목표/이론 강의/실습 가이드/Q&amp;A/정리/과제) 구조. 평균 18~20K자 분량으로 한 차례 1.5~3시간 강의 분량.</p>
+    </div>
+  </details>
+
+  <hr style="margin: 48px 0; border: none; border-top: 1px solid var(--border);">
+
+  <h2 class="section">📘 Lite 시리즈 — 4차시 운영 가이드 (블라인드 평가 완료)</h2>
+  <p style="color: var(--muted); margin-bottom: 16px;">한국 고등학교 정보·과학·진로 4차시(50분×4) 수업 운영용 요약 가이드. 9챕터. 3개 모델 비교 평가 완료.</p>
 
   <div class="models">
     <div class="model-card opus47">
