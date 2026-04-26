@@ -73,6 +73,40 @@
 
   footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; text-align: center; }
   footer a { color: inherit; }
+
+  /* 평가 결과 */
+  .eval-banner {
+    background: linear-gradient(135deg, rgba(94,53,177,0.08), rgba(0,137,123,0.08));
+    border-radius: 14px; padding: 24px 28px; margin: 32px 0;
+  }
+  .eval-banner h3 { margin: 0 0 6px; font-size: 1.15rem; }
+  .eval-banner p { margin: 6px 0; }
+  .score-row { display: flex; align-items: center; gap: 14px; margin: 8px 0; flex-wrap: wrap; }
+  .score-row .dim { flex: 0 0 220px; font-weight: 600; }
+  .score-row .bar-wrap { flex: 1; display: flex; gap: 6px; align-items: center; min-width: 240px; }
+  .bar { height: 14px; border-radius: 4px; }
+  .bar.opus47 { background: var(--opus47); }
+  .bar.sonnet46 { background: var(--sonnet46); }
+  .score-row .score { font-variant-numeric: tabular-nums; font-size: 0.9rem; min-width: 32px; }
+  .score-row .winner { font-weight: 700; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem; color: #fff; }
+  .winner.A { background: var(--opus47); }
+  .winner.B { background: var(--sonnet46); }
+  .winner.tie { background: var(--muted); }
+
+  .strength-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  @media (max-width: 700px) { .strength-grid { grid-template-columns: 1fr; } }
+  .strength-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; border-top: 4px solid var(--accent); }
+  .strength-card h4 { margin: 0 0 10px; font-size: 1.05rem; color: var(--accent); }
+  .strength-card ul { padding-left: 20px; margin: 8px 0; }
+  .strength-card li { margin: 6px 0; }
+  .strength-card.opus47 { --accent: var(--opus47); }
+  .strength-card.sonnet46 { --accent: var(--sonnet46); }
+
+  .verdict {
+    background: var(--card); border: 1px solid var(--border); border-left: 5px solid #ff8a65;
+    border-radius: 8px; padding: 18px 22px; margin: 20px 0; font-size: 0.98rem;
+  }
+  .verdict h4 { margin: 0 0 8px; color: #ff8a65; }
 </style>
 </head>
 <body>
@@ -155,15 +189,127 @@
   </table>
   <p style="color: var(--muted); font-size: 0.88rem; margin-top: 8px;">※ 글자 수는 마크다운 원문 기준(공백·문법 포함). 50분 차시 챕터(ch04~07)는 두 모델 모두 권장 분량을 크게 초과하며 풍부하게 작성됨.</p>
 
-  <h2 class="section">🎯 비교 시 살펴볼 포인트</h2>
-  <ul>
-    <li><strong>구조의 일관성</strong> — 같은 권장 구조(도입 → 학습 목표 → 타임라인 → 페이즈별 진행 → Q&A → 평가 …)를 어떻게 따라갔는가</li>
-    <li><strong>비유와 예시</strong> — 추상적 개념(가중치, 손실, 잠재 공간 등)을 어떤 비유로 풀어냈는가</li>
-    <li><strong>수업 멘트 자연스러움</strong> — 교사가 그대로 가져가 쓸 수 있는가</li>
-    <li><strong>예상 Q&A의 깊이</strong> — 학생이 실제로 던질 만한 질문을 짚었는가</li>
-    <li><strong>페이즈 간 전환</strong> — 한 페이즈에서 다음 페이즈로 자연스럽게 넘어가는가</li>
-    <li><strong>불필요한 군더더기</strong> — 같은 내용을 반복하거나 형식만 채운 부분이 없는가</li>
-  </ul>
+  <h2 class="section">🎭 블라인드 비교 평가</h2>
+
+  <div class="eval-banner">
+    <h3>실험 설계</h3>
+    <p>두 결과물을 <strong>Site A / Site B</strong>로 무작위 라벨링하고 모델명 단서를 모두 마스킹한 뒤, 별도의 평가 에이전트(Sonnet 4.6) 5명이 차원별로 독립 평가했습니다. 평가 후에야 매핑을 공개했습니다.</p>
+    <p style="margin-top: 12px;">
+      <span style="background: var(--opus47); color: #fff; padding: 3px 10px; border-radius: 12px; font-weight: 600;">Site A = Opus 4.7</span>
+      &nbsp;&nbsp;
+      <span style="background: var(--sonnet46); color: #fff; padding: 3px 10px; border-radius: 12px; font-weight: 600;">Site B = Sonnet 4.6</span>
+    </p>
+  </div>
+
+  <h3 style="margin-top: 32px;">📐 차원별 점수 (10점 만점)</h3>
+  <div style="background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
+    <div class="score-row">
+      <div class="dim">구조와 일관성</div>
+      <div class="bar-wrap">
+        <span class="score">7.5</span><div class="bar opus47" style="width: 75%;"></div>
+      </div>
+      <div class="bar-wrap">
+        <span class="score">8.5</span><div class="bar sonnet46" style="width: 85%;"></div>
+      </div>
+      <span class="winner B">B 우세</span>
+    </div>
+    <div class="score-row">
+      <div class="dim">수업 멘트 자연스러움</div>
+      <div class="bar-wrap">
+        <span class="score">8.5</span><div class="bar opus47" style="width: 85%;"></div>
+      </div>
+      <div class="bar-wrap">
+        <span class="score">7.0</span><div class="bar sonnet46" style="width: 70%;"></div>
+      </div>
+      <span class="winner A">A 우세</span>
+    </div>
+    <div class="score-row">
+      <div class="dim">비유와 예시</div>
+      <div class="bar-wrap">
+        <span class="score">7.0</span><div class="bar opus47" style="width: 70%;"></div>
+      </div>
+      <div class="bar-wrap">
+        <span class="score">8.5</span><div class="bar sonnet46" style="width: 85%;"></div>
+      </div>
+      <span class="winner B">B 우세</span>
+    </div>
+    <div class="score-row">
+      <div class="dim">Q&A 학습자 시각</div>
+      <div class="bar-wrap">
+        <span class="score">7.8</span><div class="bar opus47" style="width: 78%;"></div>
+      </div>
+      <div class="bar-wrap">
+        <span class="score">7.2</span><div class="bar sonnet46" style="width: 72%;"></div>
+      </div>
+      <span class="winner A">A 우세</span>
+    </div>
+    <div class="score-row">
+      <div class="dim">분량 효율 (응축)</div>
+      <div class="bar-wrap">
+        <span class="score">5.8</span><div class="bar opus47" style="width: 58%;"></div>
+      </div>
+      <div class="bar-wrap">
+        <span class="score">6.0</span><div class="bar sonnet46" style="width: 60%;"></div>
+      </div>
+      <span class="winner B">B 근소</span>
+    </div>
+    <hr style="margin: 16px 0; border: none; border-top: 1px solid var(--border);">
+    <div class="score-row">
+      <div class="dim"><strong>종합 평균</strong></div>
+      <div class="bar-wrap">
+        <span class="score"><strong>7.32</strong></span><div class="bar opus47" style="width: 73.2%;"></div>
+      </div>
+      <div class="bar-wrap">
+        <span class="score"><strong>7.44</strong></span><div class="bar sonnet46" style="width: 74.4%;"></div>
+      </div>
+      <span class="winner tie">근소·동률</span>
+    </div>
+  </div>
+
+  <h3 style="margin-top: 32px;">💪 모델별 강점</h3>
+  <div class="strength-grid">
+    <div class="strength-card opus47">
+      <h4>🟣 Opus 4.7 — "수업 현장 친화적"</h4>
+      <ul>
+        <li>그대로 입으로 나가는 <strong>구어체 멘트</strong> ("페이즈 5 가세요. 7~8분 줄게요.")</li>
+        <li><strong>구체적 학생 등장인물</strong>(민지·영수·지호)로 교실 장면이 즉각 그려짐</li>
+        <li>이전 페이즈 번호를 명시 인용하는 <strong>차시 간 연결</strong> ("P5에서 본 기울기")</li>
+        <li>슬라이더 만지다 막히는 순간을 포착한 <strong>풍부한 Q&A</strong> (1차시 14개)</li>
+        <li>오개념을 <strong>3열 표 한 장</strong>(오개념/정확한 이해/즉석 대응 멘트)에 압축</li>
+      </ul>
+    </div>
+    <div class="strength-card sonnet46">
+      <h4>🟢 Sonnet 4.6 — "교재 설계 친화적"</h4>
+      <ul>
+        <li>9챕터 헤딩이 거의 동일한 <strong>강한 구조 일관성</strong></li>
+        <li><strong>신선한 비유</strong> (가중치=성적 반영비율, 잠재 공간=기내용 캐리어, 정밀도/재현율=낚시꾼)</li>
+        <li>"눈 감고 산에서 내려오기" — 경사 하강법의 <strong>정보 제약</strong>까지 정확히 포착</li>
+        <li><strong>가치 판단 질문</strong>도 정면 대응 ("기술의 경계를 아는 것도 리터러시")</li>
+        <li>VAE vs 오토인코더, 잠재 차원의 자율적 의미 등 <strong>개념 경계까지 탐구</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="verdict">
+    <h4>🎯 결론</h4>
+    <p><strong>5개 차원 중 3개에서 Sonnet 4.6이 우세</strong>했지만 종합 점수는 0.12점 차이로 사실상 동률입니다. 두 모델의 약점이 정확히 반대라는 점이 흥미롭습니다 — Opus 4.7은 같은 내용을 다른 형식으로 반복하는 분량 비효율, Sonnet 4.6은 서사적 도입이 분량을 잠식하고 일부 답변이 학술체로 흐른다는 것.</p>
+    <p style="margin-top: 10px;">
+      📌 <strong>수업 직전·교실 실전</strong> → Opus 4.7판 추천<br>
+      📌 <strong>사전 수업 설계·교재 자체로 읽기</strong> → Sonnet 4.6판 추천<br>
+      📌 가장 인상적인 발견은 <strong>Sonnet 4.6이 Opus 4.7과 동급의 교육 콘텐츠 품질</strong>을 냈다는 것 — 비용 대비 효율 측면에선 Sonnet 4.6이 명확히 유리.
+    </p>
+  </div>
+
+  <details style="margin-top: 16px;">
+    <summary style="cursor: pointer; padding: 12px 16px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; font-weight: 600;">📋 평가 방법 상세</summary>
+    <div style="padding: 16px 20px; border: 1px solid var(--border); border-top: none; border-radius: 0 0 8px 8px; background: var(--card);">
+      <p><strong>입력</strong>: 두 사이트의 챕터 마크다운 원문(주로 ch04~07 50분 차시 + 부록)</p>
+      <p><strong>마스킹</strong>: <code>opus</code>·<code>sonnet</code>·<code>claude</code>·<code>4.6</code>·<code>4.7</code> 단서를 모두 검사·치환. 디렉터리 라벨도 site-A/site-B 임의 매핑.</p>
+      <p><strong>평가자</strong>: Sonnet 4.6 에이전트 5명, 차원별 독립. 각 에이전트는 자신의 차원 외 다른 평가자의 결과를 보지 않음.</p>
+      <p><strong>출력</strong>: 차원별 강점·약점·인용·점수 보고서 5개</p>
+      <p style="color: var(--muted); font-size: 0.9rem; margin-top: 12px;">※ 평가자가 Sonnet 4.6이라는 점에서 자기 모델 편향 가능성은 있지만, 블라인드 조건에서 Sonnet 4.6이 압승하지 않고 0.12점 우세에 그쳤다는 점이 오히려 신뢰성 신호로 해석 가능.</p>
+    </div>
+  </details>
 
   <h2 class="section">🔗 관련 리포지토리</h2>
   <ul>
